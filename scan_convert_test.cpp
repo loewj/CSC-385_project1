@@ -5,15 +5,15 @@
 static void initScene(ScreenBuffer * buf)
 {
     MyScanConverter msc;
-    msc.drawLine(buf, 10, 10, 50, 10);
+    //msc.drawLine(buf, 10, 10, 50, 10);
     msc.drawLine(buf, 10, 10, 50, 50);
-    msc.drawLine(buf, 50, 50, 50, 10);
+    // msc.drawLine(buf, 50, 50, 50, 10);
     cout << "diagonal" << "\n";
-    msc.drawLine(buf, 10, 10, 50, 25);
-
-    buf -> energizePixel(50, 25, 0.5);
-    buf -> energizePixel(50, 50, 0.5);
-    buf -> energizePixel(50, 10, 0.5);
+    // msc.drawLine(buf, 10, 10, 50, 25);
+    //
+    // buf -> energizePixel(50, 25, 0.5);
+    // buf -> energizePixel(50, 50, 0.5);
+    // buf -> energizePixel(50, 10, 0.5);
 }
 
 int main(int argc, char **argv)
@@ -27,7 +27,7 @@ int main(int argc, char **argv)
         int buffer_height = 64;
 
         cout << "screen buffer being constructed" << "\n";
-        
+
         ScreenBuffer * buf = new ScreenBuffer(buffer_width, buffer_height, pixel_width, pixel_height);
 
         cout << "screen buffer constructed" << "\n";
