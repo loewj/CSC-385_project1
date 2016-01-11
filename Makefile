@@ -11,8 +11,8 @@ ifeq ($(OS), Linux) # Science Center Linux Boxes
 endif
 
 ifeq ($(OS), Darwin) # Assume OS X
-  CPPFLAGS += -D__MAC__ -stdlib=libstdc++ -Wno-deprecated-declarations
-  LDFLAGS += -framework GLUT -framework OpenGL
+  CPPFLAGS += -D__MAC__ -stdlib=libstdc++ -Wno-deprecated-declarations -I/opt/local/include
+  LDFLAGS += -framework GLUT -framework OpenGL /opt/local/lib/libGLEW.a
 endif
 
 ifdef OPT 
@@ -28,7 +28,7 @@ CXX = g++
 OBJ = $(BASE).o glsupport.o screen_buffer.o my_scan_converter.o
 
 $(BASE): $(OBJ)
-	$(LINK.cpp) -o $@ $^ $(LIBS) -lGLEW 
+	$(LINK.cpp) -o $@ $^ $(LIBS)
 
 clean:
 	rm -f $(OBJ) $(BASE)

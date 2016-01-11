@@ -31,11 +31,9 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
 
     // ================================================
 
-    // Starting point is at the origin (xbegin, ybegin)
-    // Swap if xbegin > xend... makes algorithm more "universal"
-
-    // Should the next point be at (ebegin + 1, ybegin)?
+    // Should the next point be at (xbegin + 1, ybegin)?
     // Or (ebegin + 1, ybegin + 1)
+    //  Shade adjacent pixels if so for antialiasing
 
     int dx = xend - xbegin;
     int dy = yend - ybegin;
