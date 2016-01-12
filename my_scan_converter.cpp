@@ -1,8 +1,8 @@
 #include "my_scan_converter.h"
-
+#include <stdlib.h>
 #include <iostream>
 
-int DetectLine(int xbegin, int ybegin, int xend, int yend) {
+int detectLine(int xbegin, int ybegin, int xend, int yend) {
 
   if (ybegin == yend) {
     cout << "The line is horizontal" << "\n";
@@ -10,18 +10,35 @@ int DetectLine(int xbegin, int ybegin, int xend, int yend) {
   } else if (xbegin == xend) {
     cout << "The line is vertical" << "\n";
     return 2;
-  } else {
-    cout << "The line is diagonal" << "\n";
+  } else if ((xbegin - xend / ybegin - yend) > 0) {
+    cout << "The line is diagonal w/ positive slope" << "\n";
     return 3;
+  } else {
+    cout << "The line is diagonal w/ negative slope" << "\n";
+    return 4;
   }
+}
+
+void translatePoints(int &xbegin, int &ybegin, int &xend, int &yend) {
+
+  if (xbegin > xend || ybegin > yend) {
+    int temp = xbegin;
+    xbegin = xend;
+    xend = temp;
+    temp = ybegin;
+    ybegin = yend;
+    yend = temp;
+  }
+
 }
 
 void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xend, int yend)
 {
 
-    // Should "massage" the points passed into the drawLine function here...
+    int lineType = detectLine(xbegin, ybegin, xend, yend);
 
-    int lineType = DetectLine(xbegin, ybegin, xend, yend);
+    // Swap points if necessary
+    translatePoints(xbegin, ybegin, xend, yend);
 
     // energize the fist pixel
     buf -> energizePixel(xbegin, ybegin);
@@ -43,7 +60,6 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
       // D = A + (1/2)B
       // If D evaluates to positive, then plot (xbegin + 1, ybegin + 1)
         // Else, plot (xbegin + 1, ybegin)
-
 
       int dx = xend - xbegin;
       int dy = yend - ybegin;

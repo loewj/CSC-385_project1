@@ -5,24 +5,27 @@
 static void initScene(ScreenBuffer * buf)
 {
     MyScanConverter msc;
-    //msc.drawLine(buf, 10, 10, 50, 10);
 
     // horizontal line forwards
-    msc.drawLine(buf, 30, 30, 50, 30);
+    // msc.drawLine(buf, 30, 30, 50, 30);
 
     // horizontal line backwards
+    // msc.drawLine(buf, 50, 30, 30, 30);
 
     // vertical line forwards
     //msc.drawLine(buf, 30, 20, 30, 60);
 
     // vertical line backwards
+    // msc.drawLine(buf, 30, 60, 30, 20);
 
     // origin to first quadrant
     //msc.drawLine(buf, 30, 30, 50, 50);
 
     // first quadrant to origin
+    // msc.drawLine(buf, 50, 50, 30, 30);
 
     // origin to second quadrant
+    msc.drawLine(buf, 50, 50, -10, 60);
 
     // second quadrant to origin
 
