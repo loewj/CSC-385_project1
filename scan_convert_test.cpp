@@ -18,16 +18,16 @@ static void initScene(ScreenBuffer * buf)
     // vertical line backwards
     // msc.drawLine(buf, 30, 60, 30, 20);
 
-    // origin to first quadrant
-    //msc.drawLine(buf, 30, 30, 50, 50);
+    // shallow positive slope
+    msc.drawLine(buf, 30, 30, 50, 0);
 
-    // first quadrant to origin
+    // reversed shallow positive slope
     // msc.drawLine(buf, 50, 50, 30, 30);
 
-    // origin to second quadrant
-    msc.drawLine(buf, 50, 50, -10, 60);
+    // shallow negative slope
+    // msc.drawLine(buf, 5, 30, 30, 0);
 
-    // second quadrant to origin
+    // reversed shallow negative slope
 
     // origin to third quadrant
 
