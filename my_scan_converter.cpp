@@ -33,7 +33,9 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
 
     // Should the next point be at (xbegin + 1, ybegin)?
     // Or (ebegin + 1, ybegin + 1)
-    //  Shade adjacent pixels if so for antialiasing
+    // If so, shade adjacent pixels for antialiasing
+
+    // Add a swap function to invert the points for the other cases
 
     int dx = xend - xbegin;
     int dy = yend - ybegin;
