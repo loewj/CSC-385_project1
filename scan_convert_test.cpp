@@ -6,9 +6,35 @@ static void initScene(ScreenBuffer * buf)
 {
     MyScanConverter msc;
     //msc.drawLine(buf, 10, 10, 50, 10);
-    msc.drawLine(buf, 10, 10, 50, 50);
+
+    // horizontal line forwards
+    msc.drawLine(buf, 30, 30, 50, 30);
+
+    // horizontal line backwards
+
+    // vertical line forwards
+    //msc.drawLine(buf, 30, 20, 30, 60);
+
+    // vertical line backwards
+
+    // origin to first quadrant
+    //msc.drawLine(buf, 30, 30, 50, 50);
+
+    // first quadrant to origin
+
+    // origin to second quadrant
+
+    // second quadrant to origin
+
+    // origin to third quadrant
+
+    // third quadrant to origin
+
+    // origin to fourth quadrant
+
+    // fourth quadrant to origin
+
     // msc.drawLine(buf, 50, 50, 50, 10);
-    cout << "diagonal" << "\n";
     // msc.drawLine(buf, 10, 10, 50, 25);
     //
     // buf -> energizePixel(50, 25, 0.5);
