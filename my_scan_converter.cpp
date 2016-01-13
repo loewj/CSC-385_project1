@@ -23,29 +23,29 @@ int detectLine(int dx, int dy) {
 
 void translatePoints(int &xbegin, int &ybegin, int &xend, int &yend) {
 
-  if (xbegin > xend || ybegin > yend) {
     int temp = xbegin;
     xbegin = xend;
     xend = temp;
     temp = ybegin;
     ybegin = yend;
     yend = temp;
-  }
 
 }
 
 void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xend, int yend)
 {
 
-    int dx = xend - xbegin;
-    int dy = yend - ybegin;
+    // Swap points if necessary
+    if (xbegin > xend) {
+      translatePoints(xbegin, ybegin, xend, yend);
+    }
 
-    const bool isSteep = (abs(dy) > abs(dx));
+    dx = xend - xbegin;
+    dy = yend - ybegin;
 
     int lineType = detectLine(dx, dy);
 
-    // Swap points if necessary
-    translatePoints(xbegin, ybegin, xend, yend);
+    const bool isSteep = (abs(dy) > abs(dx));
 
     // energize the fist pixel
     buf -> energizePixel(xbegin, ybegin);
@@ -60,16 +60,33 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
       }
     } else if (lineType == 3) {
 
-      // Draw a diagonal line
+      // int d = 2 * dx - dy;
+      // int y = ybegin;
+      // for (int x = xbegin + 1; x < xend; x++) {
+      //   buf -> energizePixel(x, y);
+      //   d = d + (2 * dy);
+      //   if (d > 0) {
+      //     y++;
+      //     d = d - (2 * dx);
+      //   }
+      // }
 
-      // A = dy
+      int p = 2 * dx - dy;
 
-      // D = A + (1/2)B
-      // If D evaluates to positive, then plot (xbegin + 1, ybegin + 1)
-        // Else, plot (xbegin + 1, ybegin)
+      int y = ybegin;
+      for (int x = xbegin + 1; x <= xend; x++) {
+        if (p > 0) {
+          y++;
+          p = p + 2 * dy - 2 * dx;
+        } else {
+          p = p + 2 * dy;
+        }
+        buf -> energizePixel(x, y);
+      }
+
+    } else {
 
       int d = 2 * dx - dy;
-
       int y = ybegin;
 
       for (int x = xbegin + 1; x < xend; x++) {
@@ -80,9 +97,6 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
           d = d - (2 * dx);
         }
       }
-    } else {
-
-      cout << "Tell me how to do negative slope, Josh\n";
 
     }
 
