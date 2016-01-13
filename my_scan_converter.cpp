@@ -21,14 +21,16 @@ int detectLine(int dx, int dy) {
   }
 }
 
-void translatePoints(int &xbegin, int &ybegin, int &xend, int &yend) {
+void swapStartEnd(int &xbegin, int &ybegin, int &xend, int &yend) {
 
-    int temp = xbegin;
-    xbegin = xend;
-    xend = temp;
-    temp = ybegin;
-    ybegin = yend;
-    yend = temp;
+    if (xbegin > xend && ybegin ) {
+      int temp = xbegin;
+      xbegin = xend;
+      xend = temp;
+      temp = ybegin;
+      ybegin = yend;
+      yend = temp;
+    }
 
 }
 
@@ -36,16 +38,19 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
 {
 
     // Swap points if necessary
-    if (xbegin > xend) {
-      translatePoints(xbegin, ybegin, xend, yend);
-    }
+    swapStartEnd(xbegin, ybegin, xend, yend);
 
-    dx = xend - xbegin;
-    dy = yend - ybegin;
+    int dx = xend - xbegin;
+    int dy = yend - ybegin;
 
     int lineType = detectLine(dx, dy);
 
     const bool isSteep = (abs(dy) > abs(dx));
+
+    cout << "Steep :: " << isSteep << "\n";
+
+    // If the line is steep, all we have to do is swap x and y...
+
 
     // energize the fist pixel
     buf -> energizePixel(xbegin, ybegin);
@@ -71,33 +76,38 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
       //   }
       // }
 
-      int p = 2 * dx - dy;
+      if (isSteep) {
 
-      int y = ybegin;
-      for (int x = xbegin + 1; x <= xend; x++) {
-        if (p > 0) {
-          y++;
-          p = p + 2 * dy - 2 * dx;
-        } else {
-          p = p + 2 * dy;
+        int p = 2 * dx - dy;
+
+        int x = xbegin;
+        for (int y = ybegin + 1; y <= yend; y++) {
+          if (p > 0) {
+            x++;
+            p = p + 2 * dx - 2 * dy;
+          } else {
+            p = p + 2 * dx;
+          }
+          buf -> energizePixel(x, y);
         }
-        buf -> energizePixel(x, y);
+      } else {
+        int p = 2 * dx - dy;
+
+        int y = ybegin;
+        for (int x = xbegin + 1; x <= xend; x++) {
+          if (p > 0) {
+            y++;
+            p = p + 2 * dy - 2 * dx;
+          } else {
+            p = p + 2 * dy;
+          }
+          buf -> energizePixel(x, y);
+        }
       }
 
     } else {
 
-      int d = 2 * dx - dy;
-      int y = ybegin;
-
-      for (int x = xbegin + 1; x < xend; x++) {
-        buf -> energizePixel(x, y);
-        d = d + (2 * dy);
-        if (d > 0) {
-          y++;
-          d = d - (2 * dx);
-        }
-      }
+      
 
     }
-
 }

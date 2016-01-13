@@ -19,13 +19,16 @@ static void initScene(ScreenBuffer * buf)
     // msc.drawLine(buf, 30, 60, 30, 20);
 
     // shallow positive slope
-    msc.drawLine(buf, 10, 10, 40, 30);
+    // msc.drawLine(buf, 10, 10, 40, 30);
 
     // reversed shallow positive slope
-    msc.drawLine(buf, 40, 30, 10, 10);
+    // msc.drawLine(buf, 40, 30, 10, 10);
 
     // deep positive slope
     // msc.drawLine(buf, 10, 10, 20, 40);
+
+    // reversed deep positive slope
+    // msc.drawLine(buf, 20, 40, 10, 10);
 
     // shallow negative slope
     // msc.drawLine(buf, 0, 30, 30, 10);
