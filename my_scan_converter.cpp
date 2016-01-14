@@ -2,137 +2,67 @@
 #include <stdlib.h>
 #include <iostream>
 
-// TODO: negative slope, steep lines, clean code
-
-int detectLine(int dx, int dy) {
-
-  if (dy == 0) {
-    cout << "The line is horizontal" << "\n";
-    return 1;
-  } else if (dx == 0) {
-    cout << "The line is vertical" << "\n";
-    return 2;
-  } else if (dy > 0) {
-    cout << "The line is diagonal w/ positive slope" << "\n";
-    return 3;
-  } else {
-    cout << "The line is diagonal w/ negative slope" << "\n";
-    return 4;
-  }
-}
-
-void swapStartEnd(int &xbegin, int &ybegin, int &xend, int &yend) {
-
-    if (xbegin >= xend && ybegin >= yend) {
-      int temp = xbegin;
-      xbegin = xend;
-      xend = temp;
-      temp = ybegin;
-      ybegin = yend;
-      yend = temp;
-    }
-
-}
-
 void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xend, int yend)
 {
 
-    // Swap points if necessary
-    // swapStartEnd(xbegin, ybegin, xend, yend);
+  // ====================
 
-    int dx = xend - xbegin;
-    int dy = yend - ybegin;
+  // A line is "steep" if it is above a 45 degree angle
+  const bool isSteep = (abs(yend - ybegin) > abs(xend - xbegin));
 
-    int lineType = detectLine(dx, dy);
+  // We swap x's and y's becuase it's the same line in a slightly different
+  // direction, so we draw it as such
+  if (isSteep) {
+    std::swap(xbegin, ybegin);
+    std::swap(xend, yend);
+  }
 
-    const bool isSteep = (abs(dy) > abs(dx));
+  // If the line is in quadrant 2 or 3, then swap x's so we don't have to change
+  // the loop's params
+  if (xbegin > xend) {
+    std::swap(xbegin, xend);
+    std::swap(ybegin, yend);
+  }
 
-    cout << "Steep :: " << isSteep << "\n";
+  int step;
 
-    // If the line is steep, all we have to do is swap x and y...
+  // Make the step negative if the line has negative slope
+  if (ybegin > yend){
+    step = -1;
+  } else {
+    step = 1;
+  }
 
+  // DX will always be >= 0 becuase of swapping, but DY won't
+  int dx = xend - xbegin;
+  int dy = abs(yend-ybegin);
 
-    // energize the fist pixel
-    // buf -> energizePixel(xbegin, ybegin);
+  // ====================
 
-    if (lineType == 1) {
-      for (int x = xbegin + 1; x < xend; x++) {
-        buf -> energizePixel(x, ybegin);
-      }
-    } else if (lineType == 2) {
-      for (int y = ybegin + 1; y < yend; y++) {
-        buf -> energizePixel(xbegin, y);
-      }
-    } else if (lineType == 3) {
+  // Always energize the first pixel
+  buf -> energizePixel(xbegin, ybegin);
 
-      // int d = 2 * dx - dy;
-      // int y = ybegin;
-      // for (int x = xbegin + 1; x < xend; x++) {
-      //   buf -> energizePixel(x, y);
-      //   d = d + (2 * dy);
-      //   if (d > 0) {
-      //     y++;
-      //     d = d - (2 * dx);
-      //   }
-      // }
+  int y, p;
 
-      if (isSteep) {
+  p = 2 * dy - dx;
 
-        int p = 2 * dx - dy;
+  y = ybegin;
 
-        int x = xbegin;
-        for (int y = ybegin + 1; y <= yend; y++) {
-          if (p > 0) {
-            x++;
-            p = p + 2 * dx - 2 * dy;
-          } else {
-            p = p + 2 * dx;
-          }
-          buf -> energizePixel(x, y);
-        }
-      }
-      else {
-        int p = 2 * dx - dy;
-
-        int y = ybegin;
-        for (int x = xbegin + 1; x <= xend; x++) {
-          if (p > 0) {
-            y++;
-            p = p + 2 * dy - 2 * dx;
-          } else {
-            p = p + 2 * dy;
-          }
-          buf -> energizePixel(x, y);
-        }
-      }
-
+  for (int x = xbegin + 1; x <= xend; x++) {
+    if (p > 0) {
+      p = p + 2 * dy - 2 * dx;
+      y = y + step;
+    } else {
+      p = p + 2 * dy;
     }
-    else {
-
-      int temp = xbegin;
-      xbegin = xend;
-      xend = temp;
-      temp = ybegin;
-      ybegin = yend;
-      yend = temp;
-
-      dx = xend - xbegin;
-      dy = yend - ybegin;
-
-      buf -> energizePixel(xend, yend);
-
-      int p = 2 * dy - dx;
-
-      int y = ybegin;
-      for (int x = xbegin - 1; x >= xend; x--) {
-        if (p > 0) {
-          y++;
-          p = p + 2 * dy - 2 * dx;
-        } else {
-          p = p + 2 * dy;
-        }
-        buf -> energizePixel(x, y);
-      }
-
+    if (isSteep) {
+      buf -> energizePixel(y, x);
+    } else {
+      buf -> energizePixel(x, y);
     }
+  }
+}
+
+void drawTriangle(int a1, int a2, int b1, int b2, int c1, int c2) {
+  
 }
