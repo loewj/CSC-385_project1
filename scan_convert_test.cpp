@@ -13,7 +13,7 @@ static void initScene(ScreenBuffer * buf)
     // msc.drawLine(buf, 50, 30, 30, 30);
 
     // vertical line forwards
-    //msc.drawLine(buf, 30, 20, 30, 60);
+    // msc.drawLine(buf, 30, 20, 30, 60);
 
     // vertical line backwards
     // msc.drawLine(buf, 30, 60, 30, 20);
@@ -31,7 +31,7 @@ static void initScene(ScreenBuffer * buf)
     // msc.drawLine(buf, 20, 40, 10, 10);
 
     // shallow negative slope
-    // msc.drawLine(buf, 0, 30, 30, 10);
+    msc.drawLine(buf, 0, 30, 30, 20);
 
     // reversed shallow negative slope
 

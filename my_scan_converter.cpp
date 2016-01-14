@@ -23,7 +23,7 @@ int detectLine(int dx, int dy) {
 
 void swapStartEnd(int &xbegin, int &ybegin, int &xend, int &yend) {
 
-    if (xbegin > xend && ybegin ) {
+    if (xbegin >= xend && ybegin >= yend) {
       int temp = xbegin;
       xbegin = xend;
       xend = temp;
@@ -38,7 +38,7 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
 {
 
     // Swap points if necessary
-    swapStartEnd(xbegin, ybegin, xend, yend);
+    // swapStartEnd(xbegin, ybegin, xend, yend);
 
     int dx = xend - xbegin;
     int dy = yend - ybegin;
@@ -53,7 +53,7 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
 
 
     // energize the fist pixel
-    buf -> energizePixel(xbegin, ybegin);
+    // buf -> energizePixel(xbegin, ybegin);
 
     if (lineType == 1) {
       for (int x = xbegin + 1; x < xend; x++) {
@@ -90,7 +90,8 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
           }
           buf -> energizePixel(x, y);
         }
-      } else {
+      }
+      else {
         int p = 2 * dx - dy;
 
         int y = ybegin;
@@ -105,9 +106,33 @@ void MyScanConverter::drawLine(ScreenBuffer *buf, int xbegin, int ybegin, int xe
         }
       }
 
-    } else {
+    }
+    else {
 
-      
+      int temp = xbegin;
+      xbegin = xend;
+      xend = temp;
+      temp = ybegin;
+      ybegin = yend;
+      yend = temp;
+
+      dx = xend - xbegin;
+      dy = yend - ybegin;
+
+      buf -> energizePixel(xend, yend);
+
+      int p = 2 * dy - dx;
+
+      int y = ybegin;
+      for (int x = xbegin - 1; x >= xend; x--) {
+        if (p > 0) {
+          y++;
+          p = p + 2 * dy - 2 * dx;
+        } else {
+          p = p + 2 * dy;
+        }
+        buf -> energizePixel(x, y);
+      }
 
     }
 }
